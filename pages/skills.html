@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skill Exchange — ConnectImpact</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    .page-hero{padding:4rem 2rem 3rem;background:var(--bg-2);border-bottom:1px solid var(--border);text-align:center}
+    .skills-layout{max-width:1280px;margin:0 auto;padding:2.5rem 2rem}
+    .skill-card{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-xl);padding:0;overflow:hidden;transition:var(--transition)}
+    .skill-card:hover{border-color:var(--border-2);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.3)}
+    .skill-card-header{padding:1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1rem}
+    .skill-card-body{padding:1.5rem}
+    .skill-exchange-arrow{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;background:var(--surface);border-radius:var(--radius);margin:1rem 0}
+    .skill-pill{padding:6px 14px;border-radius:100px;font-size:.82rem;font-weight:600}
+    .skill-offer{background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.3);color:var(--blue-light)}
+    .skill-want{background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);color:var(--purple-light)}
+    .skill-card-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;gap:.75rem;align-items:center}
+    .star-rating{color:var(--orange);font-size:.9rem}
+    .post-skill-form{background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(139,92,246,.06));border:1px solid rgba(59,130,246,.2);border-radius:var(--radius-xl);padding:2.5rem;margin-bottom:2.5rem}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+    @media(max-width:640px){.form-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo"><div class="logo-orb"></div><span>ConnectImpact</span></a>
+      <ul class="nav-links">
+        <li><a href="communities.html">Communities</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="volunteer.html">Volunteer</a></li>
+        <li><a href="skills.html" style="color:var(--text);">Skills</a></li>
+        <li><a href="ai-assistant.html">AI Assistant</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="dashboard.html" class="btn-ghost">Dashboard</a>
+        <a href="profile.html" class="btn-primary">Profile</a>
+      </div>
+    </div>
+  </nav>
+
+  <div style="padding-top:64px;">
+    <div class="page-hero">
+      <div class="section-label">Skill Exchange</div>
+      <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.02em;">Teach what you know. <span class="gradient-text">Learn what you love.</span></h1>
+      <p style="color:var(--text-2);margin-top:.75rem;max-width:560px;margin-left:auto;margin-right:auto;">No money changes hands. Just people sharing knowledge, building skills, and making real connections.</p>
+    </div>
+
+    <div class="skills-layout">
+      <!-- Post a skill -->
+      <div class="post-skill-form reveal">
+        <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:.5rem;">📣 Post a Skill Exchange</h2>
+        <p style="color:var(--text-2);font-size:.88rem;margin-bottom:1.75rem;">What can you teach? What do you want to learn?</p>
+        <div class="form-grid">
+          <div class="input-group">
+            <label class="input-label">I can teach…</label>
+            <input type="text" class="input-field" placeholder="e.g. Python Programming, Guitar, Yoga…" id="skill-offer"/>
+          </div>
+          <div class="input-group">
+            <label class="input-label">I want to learn…</label>
+            <input type="text" class="input-field" placeholder="e.g. Graphic Design, French, Photography…" id="skill-want"/>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Availability</label>
+            <select class="input-field" id="skill-avail">
+              <option>Weekends</option><option>Weekday evenings</option><option>Flexible</option><option>Online only</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Session format</label>
+            <select class="input-field" id="skill-format">
+              <option>In-person (Delhi)</option><option>Online (Video call)</option><option>Both</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Short bio / what you'll cover</label>
+          <textarea class="input-field" rows="2" placeholder="Brief description of your skill level and what you'd teach…" id="skill-bio"></textarea>
+        </div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
+          <button class="btn-primary" onclick="postSkill()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Post Skill Exchange
+          </button>
+          <button class="btn-outline" onclick="aiMatchSkill()">✨ AI-Find My Match</button>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.75rem;">
+        <button class="filter-btn-sk active" onclick="setSkillFilter('all',this)">All Skills</button>
+        <button class="filter-btn-sk" onclick="setSkillFilter('tech',this)">💻 Tech</button>
+        <button class="filter-btn-sk" onclick="setSkillFilter('music',this)">🎵 Music</button>
+        <button class="filter-btn-sk" onclick="setSkillFilter('language',this)">🌐 Language</button>
+        <button class="filter-btn-sk" onclick="setSkillFilter('fitness',this)">🏃 Fitness</button>
+        <button class="filter-btn-sk" onclick="setSkillFilter('arts',this)">🎨 Arts</button>
+        <button class="filter-btn-sk" onclick="setSkillFilter('cooking',this)">🍳 Cooking</button>
+        <button class="filter-btn-sk" onclick="setSkillFilter('business',this)">💼 Business</button>
+      </div>
+      <style>
+        .filter-btn-sk{padding:7px 16px;background:var(--surface);border:1px solid var(--border);border-radius:100px;font-size:.82rem;color:var(--text-2);cursor:pointer;transition:var(--transition);font-family:var(--font)}
+        .filter-btn-sk:hover,.filter-btn-sk.active{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.4);color:var(--purple-light)}
+      </style>
+
+      <div class="card-grid" id="skills-grid"></div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20)});
+
+    const skillsData = [
+      {id:1,name:'Arjun Sharma',avatar:'AS',offers:'Python & Machine Learning',wants:'Guitar Lessons',category:'tech',level:'Intermediate',rating:4.8,reviews:23,sessions:45,avail:'Weekends',format:'Both',bio:'Software engineer at a Delhi startup. Can teach Python from basics to ML. Looking for someone to teach me acoustic guitar.'},
+      {id:2,name:'Priya Mehta',avatar:'PM',offers:'Classical Bharatanatyam',wants:'Graphic Design',category:'music',level:'Advanced',rating:5.0,reviews:18,sessions:31,avail:'Weekend evenings',format:'In-person',bio:'Professional dancer with 12 years experience. Can teach classical dance or basic contemporary. Want to learn Figma and visual design.'},
+      {id:3,name:'Rahul Verma',avatar:'RV',offers:'Spanish Conversation',wants:'Python Basics',category:'language',level:'B2 Spanish',rating:4.6,reviews:12,sessions:22,avail:'Weekday evenings',format:'Online',bio:'Lived in Spain for 3 years. Fluent Spanish speaker. Looking to learn Python fundamentals for a career shift.'},
+      {id:4,name:'Sneha Patel',avatar:'SP',offers:'Yoga & Meditation',wants:'Photography',category:'fitness',level:'RYT-200 Certified',rating:4.9,reviews:34,sessions:67,avail:'Mornings',format:'In-person',bio:'Certified yoga instructor. Specialise in Hatha and Vinyasa. Want to learn portrait and street photography.'},
+      {id:5,name:'Vikram Singh',avatar:'VS',offers:'Watercolor Painting',wants:'Public Speaking',category:'arts',level:'Hobbyist Advanced',rating:4.4,reviews:9,sessions:14,avail:'Weekends',format:'Both',bio:'Self-taught watercolor artist with an Instagram following of 10k. Want to improve my confidence speaking in front of groups.'},
+      {id:6,name:'Nisha Gupta',avatar:'NG',offers:'French Language (A1-B1)',wants:'Cooking — South Indian',category:'language',level:'Native French speaker',rating:4.7,reviews:21,sessions:38,avail:'Flexible',format:'Online',bio:'French national living in Delhi. Happy to teach conversational French. Want to learn authentic South Indian cooking!'},
+      {id:7,name:'Amit Kumar',avatar:'AK',offers:'Digital Marketing & SEO',wants:'Video Editing',category:'business',level:'6 years experience',rating:4.5,reviews:15,sessions:27,avail:'Weekends',format:'Online',bio:'Growth marketer at a D2C brand. Can teach Google Ads, SEO, and social media strategy. Looking to learn Premier Pro/DaVinci Resolve.'},
+      {id:8,name:'Kavya Reddy',avatar:'KR',offers:'Home Baking & Sourdough',wants:'English Communication',category:'cooking',level:'Passionate baker',rating:4.8,reviews:8,sessions:12,avail:'Saturday mornings',format:'In-person',bio:'Baking enthusiast specialising in sourdough, croissants, and Indian desserts. Want to improve my spoken English for presentations.'},
+    ];
+
+    let activeSkillFilter = 'all';
+
+    function setSkillFilter(f,btn){
+      activeSkillFilter = f;
+      document.querySelectorAll('.filter-btn-sk').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSkills();
+    }
+
+    function renderSkills(){
+      const g = document.getElementById('skills-grid');
+      const filtered = skillsData.filter(s => activeSkillFilter === 'all' || s.category === activeSkillFilter);
+      g.innerHTML = filtered.map((s,i)=>`
+        <div class="skill-card reveal" style="animation-delay:${i*50}ms">
+          <div class="skill-card-header">
+            <div class="avatar avatar-md">${s.avatar}</div>
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:.95rem;">${s.name}</div>
+              <div style="font-size:.78rem;color:var(--text-3);">${s.sessions} sessions completed</div>
+            </div>
+            <div class="star-rating">★ ${s.rating}</div>
+          </div>
+          <div class="skill-card-body">
+            <div class="skill-exchange-arrow">
+              <span class="skill-pill skill-offer">Offers: ${s.offers}</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2"><path d="M8 3L4 7l4 4"/><path d="M4 7h16"/><path d="M16 21l4-4-4-4"/><path d="M20 17H4"/></svg>
+              <span class="skill-pill skill-want">Wants: ${s.wants}</span>
+            </div>
+            <p style="font-size:.85rem;color:var(--text-2);line-height:1.65;margin-bottom:1rem;">${s.bio}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:.5rem;">
+              <span class="badge badge-blue">📅 ${s.avail}</span>
+              <span class="badge badge-purple">${s.format}</span>
+              <span class="badge badge-green">⭐ ${s.level}</span>
+            </div>
+          </div>
+          <div class="skill-card-footer">
+            <div style="flex:1;font-size:.78rem;color:var(--text-3);">${s.reviews} reviews</div>
+            <button class="btn-outline" style="padding:8px 16px;font-size:.82rem;" onclick="connectSkill('${s.name}',this)">Connect</button>
+            <button class="btn-primary" style="padding:8px 16px;font-size:.82rem;" onclick="requestExchange('${s.name}','${s.offers}','${s.wants}',this)">Request Exchange</button>
+          </div>
+        </div>
+      `).join('');
+      const rv=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:.05});
+      g.querySelectorAll('.reveal').forEach(el=>rv.observe(el));
+    }
+
+    function requestExchange(name,offer,want,btn){
+      btn.textContent='✓ Requested!';
+      btn.disabled=true;
+      showToast(`Exchange request sent to <strong>${name}</strong>! They'll receive a notification. 🎓`,'success');
+    }
+
+    function connectSkill(name,btn){
+      btn.textContent='✓ Connected';
+      btn.style.borderColor='var(--green)';
+      btn.style.color='var(--green)';
+      btn.disabled=true;
+      showToast(`You're now connected with <strong>${name}</strong>!`,'success');
+    }
+
+    async function aiMatchSkill(){
+      const offer = document.getElementById('skill-offer').value;
+      const want = document.getElementById('skill-want').value;
+      if(!offer||!want){showToast('Please fill in what you offer and want first.','info');return;}
+      showToast(`AI is finding your best skill match…`,'info');
+      // In production would call AI API
+      setTimeout(()=>showToast(`Found 3 great matches for ${offer} ↔ ${want}! Scroll down to see suggested matches. ✨`,'success'),1500);
+    }
+
+    function postSkill(){
+      const offer=document.getElementById('skill-offer').value;
+      const want=document.getElementById('skill-want').value;
+      if(!offer||!want){showToast('Please fill in both skill fields.','info');return;}
+      showToast(`Your skill exchange posted: <strong>${offer} ↔ ${want}</strong>! 🎉`,'success');
+      document.getElementById('skill-offer').value='';
+      document.getElementById('skill-want').value='';
+      document.getElementById('skill-bio').value='';
+    }
+
+    function showToast(msg,type){
+      let c=document.querySelector('.toast-container');
+      if(!c){c=document.createElement('div');c.className='toast-container';document.body.appendChild(c);}
+      const t=document.createElement('div');
+      t.className=`toast ${type==='success'?'success':''}`;
+      t.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${type==='success'?'#10B981':'#60A5FA'}" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>${msg}</span>`;
+      c.appendChild(t);
+      setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(100%)';t.style.transition='.3s';setTimeout(()=>t.remove(),300);},3500);
+    }
+
+    const rv=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el=>rv.observe(el));
+    renderSkills();
+  </script>
+</body>
+</html>

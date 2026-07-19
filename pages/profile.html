@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile — ConnectImpact</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    .profile-hero{background:var(--bg-2);border-bottom:1px solid var(--border);padding:3rem 2rem 0}
+    .profile-hero-inner{max-width:960px;margin:0 auto}
+    .profile-cover{height:160px;background:linear-gradient(135deg,rgba(59,130,246,.3),rgba(139,92,246,.3));border-radius:var(--radius-xl) var(--radius-xl) 0 0;position:relative;overflow:hidden}
+    .profile-cover::after{content:'';position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><circle cx="30" cy="30" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>')}
+    .profile-info{display:flex;align-items:flex-end;gap:1.5rem;padding:0 1.5rem;transform:translateY(-40px)}
+    .profile-avatar-wrap{position:relative;flex-shrink:0}
+    .profile-avatar-big{width:88px;height:88px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;border:4px solid var(--bg-2);display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:800;color:#fff}
+    .online-dot{position:absolute;bottom:6px;right:4px;width:14px;height:14px;background:var(--green);border-radius:50%;border:2px solid var(--bg-2)}
+    .profile-text{flex:1;padding-bottom:.5rem}
+    .profile-name{font-size:1.4rem;font-weight:800;letter-spacing:-.02em}
+    .profile-handle{font-size:.88rem;color:var(--text-3);font-family:var(--mono)}
+    .profile-actions{display:flex;gap:.5rem;padding-bottom:.75rem;flex-shrink:0}
+    .profile-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);padding:0 1.5rem}
+    .profile-tab{padding:1rem 1.25rem;font-size:.88rem;font-weight:500;color:var(--text-3);cursor:pointer;border-bottom:2px solid transparent;transition:var(--transition);margin-bottom:-1px}
+    .profile-tab:hover{color:var(--text)}
+    .profile-tab.active{color:var(--blue-light);border-color:var(--blue)}
+    .profile-content{max-width:960px;margin:2rem auto;padding:0 2rem 4rem;display:grid;grid-template-columns:2fr 1fr;gap:2rem}
+    .about-section p{font-size:.92rem;color:var(--text-2);line-height:1.75;margin-bottom:1.25rem}
+    .interest-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+    .interest-tag{padding:5px 14px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);border-radius:100px;font-size:.8rem;color:var(--blue-light)}
+    .stat-row{display:flex;justify-content:space-around;padding:1.5rem;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:1.5rem}
+    .stat-item{text-align:center}
+    .stat-item-num{font-size:1.4rem;font-weight:800;font-family:var(--mono);background:linear-gradient(135deg,var(--blue-light),var(--purple-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .stat-item-lbl{font-size:.72rem;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+    @media(max-width:768px){.profile-content{grid-template-columns:1fr}.profile-info{flex-wrap:wrap}.profile-actions{width:100%;justify-content:flex-start}}
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo"><div class="logo-orb"></div><span>ConnectImpact</span></a>
+      <ul class="nav-links">
+        <li><a href="communities.html">Communities</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="volunteer.html">Volunteer</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="ai-assistant.html">AI Assistant</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="dashboard.html" class="btn-ghost">Dashboard</a>
+        <a href="settings.html" class="btn-outline">Settings</a>
+      </div>
+    </div>
+  </nav>
+
+  <div style="padding-top:64px;">
+    <div class="profile-hero">
+      <div class="profile-hero-inner">
+        <div class="profile-cover"></div>
+        <div class="profile-info">
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar-big">AS</div>
+            <div class="online-dot"></div>
+          </div>
+          <div class="profile-text">
+            <div class="profile-name">Archit Srivastava</div>
+            <div class="profile-handle">@archit srivastava · lucknow, India</div>
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem;">
+              <span class="badge badge-purple">🏗️ Community Builder</span>
+              <span class="badge badge-green">💚 47h Volunteered</span>
+              <span class="badge badge-blue">✓ Verified Member</span>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="btn-outline" onclick="editProfile()">Edit Profile</button>
+            <button class="btn-primary">Share Profile</button>
+          </div>
+        </div>
+        <div class="profile-tabs">
+          <div class="profile-tab active" onclick="showTab('overview',this)">Overview</div>
+          <div class="profile-tab" onclick="showTab('communities',this)">Communities (6)</div>
+          <div class="profile-tab" onclick="showTab('events',this)">Events (23)</div>
+          <div class="profile-tab" onclick="showTab('skills',this)">Skills</div>
+          <div class="profile-tab" onclick="showTab('volunteer',this)">Volunteer</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-content page-fade-in" id="profile-content">
+      <!-- Left column -->
+      <div id="tab-content">
+        <!-- Overview tab -->
+        <div id="tab-overview">
+          <div class="card mb-4">
+            <div class="card-header"><div class="card-title">About</div><button onclick="editProfile()" style="font-size:.82rem;color:var(--blue-light);background:none;border:none;cursor:pointer;">Edit</button></div>
+            <div class="about-section">
+              <p>Software engineer by day, community builder by passion. I believe the antidote to loneliness isn't more screen time — it's more real-world experiences shared with genuine people.</p>
+              <p>Currently exploring the intersection of AI and community building. Always up for a cycling ride, a photography walk, or a great book discussion.</p>
+            </div>
+            <div>
+              <div style="font-size:.82rem;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem;">Interests</div>
+              <div class="interest-tags">
+                <span class="interest-tag">📷 Photography</span>
+                <span class="interest-tag">🚴 Cycling</span>
+                <span class="interest-tag">🤖 AI & Tech</span>
+                <span class="interest-tag">📚 Reading</span>
+                <span class="interest-tag">🌿 Environment</span>
+                <span class="interest-tag">🎵 Jazz Music</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><div class="card-title">Recent Activity</div></div>
+            <div>
+              <div class="activity-item" style="display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);">
+                <div style="width:36px;height:36px;background:rgba(59,130,246,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;">📷</div>
+                <div style="flex:1"><div style="font-size:.88rem;font-weight:500;">Joined Photography Collective</div><div style="font-size:.75rem;color:var(--text-3);">2 hours ago</div></div>
+                <span class="badge badge-blue">+50 XP</span>
+              </div>
+              <div class="activity-item" style="display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--border);">
+                <div style="width:36px;height:36px;background:rgba(16,185,129,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;">🌿</div>
+                <div style="flex:1"><div style="font-size:.88rem;font-weight:500;">3 hours volunteering at GreenCity</div><div style="font-size:.75rem;color:var(--text-3);">Yesterday</div></div>
+                <span class="badge badge-green">+150 XP</span>
+              </div>
+              <div class="activity-item" style="display:flex;align-items:center;gap:14px;padding:12px 0;">
+                <div style="width:36px;height:36px;background:rgba(139,92,246,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;">🎓</div>
+                <div style="flex:1"><div style="font-size:.88rem;font-weight:500;">Taught Python Basics skill session</div><div style="font-size:.75rem;color:var(--text-3);">3 days ago</div></div>
+                <span class="badge badge-purple">+100 XP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div>
+        <div class="stat-row">
+          <div class="stat-item"><div class="stat-item-num">840</div><div class="stat-item-lbl">Impact Score</div></div>
+          <div class="stat-item"><div class="stat-item-num">47h</div><div class="stat-item-lbl">Volunteered</div></div>
+          <div class="stat-item"><div class="stat-item-num">23</div><div class="stat-item-lbl">Events</div></div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem;">
+          <div class="card-header"><div class="card-title">Level Progress</div></div>
+          <div style="text-align:center;padding:.75rem 0 1rem;">
+            <div style="font-size:2.5rem;margin-bottom:.5rem;">🏗️</div>
+            <div style="font-weight:700;">Community Builder</div>
+            <div style="font-size:.78rem;color:var(--text-3);margin-bottom:.75rem;">840 / 1000 XP</div>
+            <div class="progress-bar"><div class="progress-fill" style="width:84%"></div></div>
+            <div style="font-size:.75rem;color:var(--text-3);margin-top:6px;">160 XP to Local Hero 🦸</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem;">
+          <div class="card-header"><div class="card-title">Achievements</div></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.5rem;">
+            <div style="text-align:center;padding:10px 6px;background:var(--surface);border-radius:var(--radius-sm);cursor:default;" title="Attended first event">🎉<div style="font-size:.65rem;color:var(--text-3);margin-top:3px;">First Event</div></div>
+            <div style="text-align:center;padding:10px 6px;background:var(--surface);border-radius:var(--radius-sm);" title="Volunteered 10+ hours">💚<div style="font-size:.65rem;color:var(--text-3);margin-top:3px;">Volunteer</div></div>
+            <div style="text-align:center;padding:10px 6px;background:var(--surface);border-radius:var(--radius-sm);" title="Joined 5 communities">🤝<div style="font-size:.65rem;color:var(--text-3);margin-top:3px;">Joiner</div></div>
+            <div style="text-align:center;padding:10px 6px;background:var(--surface);border-radius:var(--radius-sm);" title="Taught a skill">🎓<div style="font-size:.65rem;color:var(--text-3);margin-top:3px;">Teacher</div></div>
+            <div style="text-align:center;padding:10px 6px;background:var(--surface);border-radius:var(--radius-sm);" title="Explored 3 categories">🧭<div style="font-size:.65rem;color:var(--text-3);margin-top:3px;">Explorer</div></div>
+            <div style="text-align:center;padding:10px 6px;background:var(--surface);border-radius:var(--radius-sm);opacity:.4;" title="Locked">🔒<div style="font-size:.65rem;color:var(--text-3);margin-top:3px;">Locked</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">Skills</div></div>
+          <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.5rem;">
+            <div style="display:flex;justify-content:space-between;font-size:.85rem;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span>💻 Python & ML</span><span class="badge badge-blue">Offers</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.85rem;padding:8px 0;border-bottom:1px solid var(--border);">
+              <span>📷 Photography</span><span class="badge badge-blue">Offers</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.85rem;padding:8px 0;">
+              <span>🎸 Guitar</span><span class="badge badge-purple">Learning</span>
+            </div>
+          </div>
+          <a href="skills.html" class="btn-outline" style="width:100%;justify-content:center;margin-top:1rem;">Manage Skills</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20)});
+    function showTab(tab,el){
+      document.querySelectorAll('.profile-tab').forEach(t=>t.classList.remove('active'));
+      el.classList.add('active');
+    }
+    function editProfile(){
+      window.location.href='settings.html';
+    }
+  </script>
+</body>
+</html>

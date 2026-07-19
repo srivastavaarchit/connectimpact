@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Volunteer Hub — ConnectImpact</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    .page-hero{padding:4rem 2rem 3rem;background:var(--bg-2);border-bottom:1px solid var(--border);text-align:center}
+    .volunteer-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem;max-width:1280px;margin:0 auto;padding:2.5rem 2rem}
+    .volunteer-card{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;transition:var(--transition)}
+    .volunteer-card:hover{border-color:var(--border-2);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.3)}
+    .vol-banner{padding:2rem 1.75rem 1.5rem;position:relative}
+    .vol-emoji{font-size:2.5rem;margin-bottom:.75rem;display:block}
+    .vol-ngo{font-size:.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+    .vol-title{font-size:1.15rem;font-weight:700;margin-bottom:.6rem}
+    .vol-desc{font-size:.88rem;color:var(--text-2);line-height:1.65}
+    .vol-footer{padding:1.25rem 1.75rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
+    .vol-meta{display:flex;flex-wrap:wrap;gap:.75rem;font-size:.78rem;color:var(--text-3)}
+    .vol-meta span{display:flex;align-items:center;gap:4px}
+    .impact-banner{background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(6,182,212,.1));border:1px solid rgba(16,185,129,.2);border-radius:var(--radius-xl);padding:3rem 2rem;text-align:center;max-width:1280px;margin:0 auto 0;padding:2rem}
+    .impact-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-top:2rem}
+    .impact-stat{background:var(--bg-2);padding:1.5rem;text-align:center}
+    .impact-num{font-size:1.8rem;font-weight:800;font-family:var(--mono);background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .impact-lbl{font-size:.75rem;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+    .hours-tracker{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-xl);padding:2rem;max-width:600px;margin:0 auto 2.5rem}
+    @media(max-width:640px){.volunteer-grid{grid-template-columns:1fr}.impact-stats{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo"><div class="logo-orb"></div><span>ConnectImpact</span></a>
+      <ul class="nav-links">
+        <li><a href="communities.html">Communities</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="volunteer.html" style="color:var(--text);">Volunteer</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="ai-assistant.html">AI Assistant</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="dashboard.html" class="btn-ghost">Dashboard</a>
+        <a href="profile.html" class="btn-primary">Profile</a>
+      </div>
+    </div>
+  </nav>
+
+  <div style="padding-top:64px;">
+    <div class="page-hero">
+      <div class="section-label">Make a Difference</div>
+      <h1 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.02em;">Volunteer for what <span class="gradient-text">matters to you</span></h1>
+      <p style="color:var(--text-2);margin-top:.75rem;max-width:560px;margin-left:auto;margin-right:auto;">Match your skills and schedule with verified NGOs and causes. Every hour you give is tracked and celebrated.</p>
+      <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:1.75rem;">
+        <a href="ai-assistant.html" class="btn-primary">✨ AI-Match Me to a Cause</a>
+        <button class="btn-outline" onclick="document.getElementById('hours-section').scrollIntoView({behavior:'smooth'})">📊 View My Hours</button>
+      </div>
+    </div>
+
+    <!-- Impact stats -->
+    <div style="max-width:1280px;margin:2.5rem auto 0;padding:0 2rem;">
+      <div class="impact-stats">
+        <div class="impact-stat"><div class="impact-num" data-target="9400">0</div><div class="impact-lbl">Volunteer Hours</div></div>
+        <div class="impact-stat"><div class="impact-num" data-target="240">0</div><div class="impact-lbl">Verified NGOs</div></div>
+        <div class="impact-stat"><div class="impact-num" data-target="4200">0</div><div class="impact-lbl">Active Volunteers</div></div>
+        <div class="impact-stat"><div class="impact-num" data-target="18">0</div><div class="impact-lbl">Cause Categories</div></div>
+      </div>
+    </div>
+
+    <!-- Category filters -->
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;padding:2rem;max-width:1280px;margin:0 auto;">
+      <span style="font-size:.82rem;color:var(--text-3);align-self:center;">Cause:</span>
+      <button class="filter-btn active" onclick="setFilter('all',this)">All Causes</button>
+      <button class="filter-btn" onclick="setFilter('education',this)">📚 Education</button>
+      <button class="filter-btn" onclick="setFilter('environment',this)">🌿 Environment</button>
+      <button class="filter-btn" onclick="setFilter('animals',this)">🐾 Animal Welfare</button>
+      <button class="filter-btn" onclick="setFilter('healthcare',this)">🏥 Healthcare</button>
+      <button class="filter-btn" onclick="setFilter('women',this)">👩 Women Empowerment</button>
+      <button class="filter-btn" onclick="setFilter('elderly',this)">👴 Elderly Care</button>
+      <button class="filter-btn" onclick="setFilter('children',this)">👶 Child Welfare</button>
+    </div>
+    <style>
+      .filter-btn{padding:7px 16px;background:var(--surface);border:1px solid var(--border);border-radius:100px;font-size:.82rem;color:var(--text-2);cursor:pointer;transition:var(--transition);font-family:var(--font)}
+      .filter-btn:hover,.filter-btn.active{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.4);color:var(--green)}
+    </style>
+
+    <!-- Volunteer cards -->
+    <div class="volunteer-grid" id="vol-grid"></div>
+
+    <!-- Hours tracker -->
+    <div id="hours-section" style="max-width:1280px;margin:0 auto;padding:0 2rem 4rem;">
+      <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:1.5rem;">📊 My Volunteer Impact</h2>
+      <div class="hours-tracker">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+          <div>
+            <div style="font-size:2.5rem;font-weight:900;font-family:var(--mono);background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">47h</div>
+            <div style="font-size:.8rem;color:var(--text-3);">Total volunteer hours logged</div>
+          </div>
+          <button class="btn-primary" onclick="logHours()">+ Log Hours</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.75rem;">
+          <div><div style="display:flex;justify-content:space-between;font-size:.82rem;color:var(--text-3);margin-bottom:5px;"><span>🌿 Environment</span><span>18h</span></div><div class="progress-bar"><div class="progress-fill" style="width:72%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:.82rem;color:var(--text-3);margin-bottom:5px;"><span>📚 Education</span><span>15h</span></div><div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:.82rem;color:var(--text-3);margin-bottom:5px;"><span>🐾 Animal Welfare</span><span>14h</span></div><div class="progress-bar"><div class="progress-fill" style="width:56%"></div></div></div>
+        </div>
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:.75rem;flex-wrap:wrap;">
+          <span class="badge badge-green">💚 47 Hours Logged</span>
+          <span class="badge badge-blue">🏆 Top Volunteer May 2026</span>
+          <span class="badge badge-purple">🌿 Earth Guardian</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20)});
+
+    const opportunities = [
+      {id:1,emoji:'🌿',color:'rgba(16,185,129,.08)',ngo:'GreenCity Foundation',title:'City Park Cleanup Drive',desc:'Help restore and maintain local parks. Tasks include planting, waste removal, and pathway clearing. Perfect for anyone who loves the outdoors.',category:'environment',hours:'3–4 hrs/session',schedule:'Every Saturday 8am',skills:['No skills needed'],slots:12,verified:true},
+      {id:2,emoji:'📚',color:'rgba(59,130,246,.08)',ngo:'Teach For India',title:'Weekend Literacy Classes',desc:'Teach reading and basic math to underprivileged children aged 6–12. Materials provided. Make a direct educational impact.',category:'education',hours:'2 hrs/week',schedule:'Saturday 10am–12pm',skills:['Teaching','Patience'],slots:5,verified:true},
+      {id:3,emoji:'🐾',color:'rgba(245,158,11,.08)',ngo:'PAWS Animal Shelter',title:'Animal Care & Adoption Support',desc:'Help feed, walk, and care for rescued dogs and cats. Also assist with adoption events and social media documentation.',category:'animals',hours:'2–3 hrs/session',schedule:'Weekends, flexible',skills:['Animal care'],slots:8,verified:true},
+      {id:4,emoji:'👩',color:'rgba(236,72,153,.08)',ngo:'Shakti Foundation',title:'Women Skill Development Trainer',desc:'Conduct workshops on digital literacy, financial planning, or vocational skills for women in underserved communities.',category:'women',hours:'4 hrs/workshop',schedule:'Monthly workshops',skills:['Digital skills','Communication'],slots:3,verified:true},
+      {id:5,emoji:'👴',color:'rgba(139,92,246,.08)',ngo:'Silver Years Trust',title:'Elderly Companion Program',desc:'Visit elderly residents weekly for conversation, board games, and technology help. Combat isolation with genuine human connection.',category:'elderly',hours:'2 hrs/week',schedule:'Tuesdays & Thursdays',skills:['Empathy','Patience'],slots:10,verified:true},
+      {id:6,emoji:'🏥',color:'rgba(6,182,212,.08)',ngo:'HealthFirst NGO',title:'Health Camp Volunteer',desc:'Assist at free health camps — registration, logistics, patient guidance. Medical background helpful but not required.',category:'healthcare',hours:'Full-day (8 hrs)',schedule:'Monthly camps',skills:['Organization'],slots:15,verified:true},
+      {id:7,emoji:'👶',color:'rgba(245,158,11,.08)',ngo:'Asha Bal Mandir',title:'After-School Mentor',desc:'Mentor children from low-income families on homework, life skills, and career aspirations. Deeply impactful work.',category:'children',hours:'2 hrs/week',schedule:'Weekday evenings',skills:['Mentoring','Subject knowledge'],slots:6,verified:true},
+      {id:8,emoji:'🌳',color:'rgba(16,185,129,.08)',ngo:'Aravalli Conservation Society',title:'Urban Tree Planting Initiative',desc:'Plant and nurture native trees across Delhi. Training provided. A tangible, lasting contribution to the environment.',category:'environment',hours:'4 hrs/session',schedule:'Monthly drives',skills:['Physical fitness'],slots:20,verified:false},
+    ];
+
+    let activeFilter = 'all';
+
+    function setFilter(f,btn){
+      activeFilter = f;
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderOpportunities();
+    }
+
+    function renderOpportunities(){
+      const g = document.getElementById('vol-grid');
+      const filtered = opportunities.filter(o => activeFilter === 'all' || o.category === activeFilter);
+      g.innerHTML = filtered.map((o,i)=>`
+        <div class="volunteer-card reveal" style="animation-delay:${i*60}ms">
+          <div class="vol-banner" style="background:${o.color}">
+            <span class="vol-emoji">${o.emoji}</span>
+            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem;">
+              <div class="vol-ngo">${o.ngo}</div>
+              ${o.verified?'<span class="badge badge-green" style="font-size:.68rem;padding:2px 8px;">✓ Verified</span>':''}
+            </div>
+            <div class="vol-title">${o.title}</div>
+            <div class="vol-desc">${o.desc}</div>
+          </div>
+          <div class="vol-footer">
+            <div class="vol-meta">
+              <span>⏱ ${o.hours}</span>
+              <span>📅 ${o.schedule}</span>
+              <span>🟢 ${o.slots} spots left</span>
+            </div>
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+              ${o.skills.map(s=>`<span class="tag">${s}</span>`).join('')}
+            </div>
+            <button class="btn-primary" style="width:100%;justify-content:center;margin-top:.75rem;" onclick="applyVolunteer('${o.title}',this)">Apply to Volunteer</button>
+          </div>
+        </div>
+      `).join('');
+      const rv=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:.05});
+      g.querySelectorAll('.reveal').forEach(el=>rv.observe(el));
+    }
+
+    function applyVolunteer(title,btn){
+      btn.textContent='✓ Applied!';
+      btn.style.background='linear-gradient(135deg,var(--green),var(--cyan))';
+      btn.disabled=true;
+      showToast(`Applied for <strong>${title}</strong>! The NGO will contact you. 💚`,'success');
+    }
+
+    function logHours(){
+      const h = prompt('How many volunteer hours would you like to log?');
+      if(h && !isNaN(h)) showToast(`Logged ${h} volunteer hours! 🎉`,'success');
+    }
+
+    function showToast(msg,type){
+      let c=document.querySelector('.toast-container');
+      if(!c){c=document.createElement('div');c.className='toast-container';document.body.appendChild(c);}
+      const t=document.createElement('div');
+      t.className=`toast ${type==='success'?'success':''}`;
+      t.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${type==='success'?'#10B981':'#60A5FA'}" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>${msg}</span>`;
+      c.appendChild(t);
+      setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(100%)';t.style.transition='.3s';setTimeout(()=>t.remove(),300);},3500);
+    }
+
+    // Counter animation
+    const obs=new IntersectionObserver(e=>{if(e[0].isIntersecting){document.querySelectorAll('[data-target]').forEach(el=>{const t=parseInt(el.dataset.target),d=1500,s=performance.now();(function step(n){const prog=Math.min((n-s)/d,1),v=Math.floor((1-Math.pow(1-prog,3))*t);el.textContent=v.toLocaleString()+'+'+(prog<1?'':'');if(prog<1)requestAnimationFrame(step);})(performance.now());});obs.disconnect();}},{threshold:.3});
+    const statsEl=document.querySelector('.impact-stats');
+    if(statsEl)obs.observe(statsEl);
+
+    const rv=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el=>rv.observe(el));
+
+    renderOpportunities();
+  </script>
+</body>
+</html>

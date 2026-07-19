@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — ConnectImpact</title>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    .impact-ring { width: 120px; height: 120px; }
+    .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2.5rem; }
+    .metric-card { padding: 1.75rem; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+    .metric-value { font-size: 2rem; font-weight: 800; font-family: var(--mono); }
+    .metric-label { font-size: 0.8rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+    .metric-delta { font-size: 0.78rem; color: var(--green); margin-top: 6px; }
+    .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.75rem; }
+    .activity-item { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .activity-item:last-child { border: none; }
+    .activity-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; }
+    .activity-info { flex: 1; }
+    .activity-title { font-size: 0.9rem; font-weight: 500; }
+    .activity-time { font-size: 0.78rem; color: var(--text-3); margin-top: 2px; }
+    .upcoming-event { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+    .upcoming-event:last-child { border: none; }
+    .event-date-box { width: 44px; text-align: center; flex-shrink: 0; }
+    .event-day { font-size: 1.3rem; font-weight: 800; line-height: 1; }
+    .event-month { font-size: 0.68rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.1em; }
+    .event-title { font-size: 0.88rem; font-weight: 600; }
+    .event-meta { font-size: 0.78rem; color: var(--text-3); margin-top: 2px; }
+    .xp-bar { height: 8px; background: var(--surface-2); border-radius: 4px; margin: 8px 0; overflow: hidden; }
+    .xp-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--purple)); border-radius: 4px; width: 62%; transition: width 1s ease; }
+    .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1rem; }
+    .badge-item { text-align: center; padding: 12px 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); font-size: 1.5rem; cursor: default; transition: var(--transition); }
+    .badge-item:hover { border-color: var(--border-2); background: var(--surface-2); }
+    .badge-item .badge-name { font-size: 0.7rem; color: var(--text-3); margin-top: 4px; }
+    .chart-bar-wrap { display: flex; flex-direction: column; gap: 10px; }
+    .chart-bar-row { display: flex; align-items: center; gap: 10px; }
+    .chart-bar-label { font-size: 0.78rem; color: var(--text-3); width: 80px; flex-shrink: 0; }
+    .chart-bar-track { flex: 1; height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+    .chart-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--purple)); }
+    .chart-bar-val { font-size: 0.78rem; color: var(--text-2); font-family: var(--mono); width: 28px; text-align: right; flex-shrink: 0; }
+    @media(max-width:1024px){.metric-grid{grid-template-columns:repeat(2,1fr)}.content-grid{grid-template-columns:1fr}}
+    @media(max-width:600px){.metric-grid{grid-template-columns:1fr}.badge-grid{grid-template-columns:repeat(4,1fr)}}
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo"><div class="logo-orb"></div><span>ConnectImpact</span></a>
+      <ul class="nav-links">
+        <li><a href="communities.html">Communities</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="volunteer.html">Volunteer</a></li>
+        <li><a href="skills.html">Skills</a></li>
+        <li><a href="ai-assistant.html">AI Assistant</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="profile.html" class="btn-ghost">Profile</a>
+        <a href="settings.html" class="btn-outline">Settings</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-label">Navigation</div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-item active">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a>
+        <a href="communities.html" class="sidebar-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Communities
+        </a>
+        <a href="events.html" class="sidebar-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Events
+        </a>
+        <a href="volunteer.html" class="sidebar-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Volunteer
+        </a>
+        <a href="skills.html" class="sidebar-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Skill Exchange
+        </a>
+        <a href="ai-assistant.html" class="sidebar-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          AI Assistant
+        </a>
+      </nav>
+      <div class="sidebar-label">Account</div>
+      <nav class="sidebar-nav">
+        <a href="profile.html" class="sidebar-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Profile
+        </a>
+        <a href="settings.html" class="sidebar-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Settings
+        </a>
+        <a href="admin.html" class="sidebar-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Admin
+        </a>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="page-main page-fade-in">
+      <!-- Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;">
+        <div>
+          <h1 style="font-size:1.75rem;font-weight:800;letter-spacing:-0.02em;">Good morning, Alex 👋</h1>
+          <p style="color:var(--text-3);font-size:0.9rem;margin-top:4px;">Here's your community impact overview for today.</p>
+        </div>
+        <a href="events.html" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Find Events
+        </a>
+      </div>
+
+      <!-- Metrics -->
+      <div class="metric-grid">
+        <div class="metric-card reveal">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+            <div class="feature-icon icon-blue" style="width:38px;height:38px;margin:0;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <span style="font-size:0.8rem;color:var(--text-3);">Volunteer Hours</span>
+          </div>
+          <div class="metric-value" style="color:var(--blue-light);" data-target="47">0</div>
+          <div class="metric-delta">↑ +8 this month</div>
+        </div>
+        <div class="metric-card reveal reveal-delay-1">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+            <div class="feature-icon icon-purple" style="width:38px;height:38px;margin:0;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+            </div>
+            <span style="font-size:0.8rem;color:var(--text-3);">Communities</span>
+          </div>
+          <div class="metric-value" style="color:var(--purple-light);" data-target="6">0</div>
+          <div class="metric-delta">↑ +2 this month</div>
+        </div>
+        <div class="metric-card reveal reveal-delay-2">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+            <div class="feature-icon icon-green" style="width:38px;height:38px;margin:0;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <span style="font-size:0.8rem;color:var(--text-3);">Events Attended</span>
+          </div>
+          <div class="metric-value" style="color:var(--green);" data-target="23">0</div>
+          <div class="metric-delta">↑ +5 this month</div>
+        </div>
+        <div class="metric-card reveal reveal-delay-3">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+            <div class="feature-icon icon-orange" style="width:38px;height:38px;margin:0;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <span style="font-size:0.8rem;color:var(--text-3);">Impact Score</span>
+          </div>
+          <div class="metric-value" style="color:var(--orange);" data-target="840">0</div>
+          <div class="metric-delta">↑ +120 this month</div>
+        </div>
+      </div>
+
+      <!-- Main content grid -->
+      <div class="content-grid">
+        <!-- Left -->
+        <div style="display:flex;flex-direction:column;gap:1.75rem;">
+          <!-- Activity Feed -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Recent Activity</div>
+              <span class="badge badge-blue">This week</span>
+            </div>
+            <div>
+              <div class="activity-item">
+                <div class="activity-icon" style="background:rgba(59,130,246,0.12);">📷</div>
+                <div class="activity-info">
+                  <div class="activity-title">Joined Photography Enthusiasts</div>
+                  <div class="activity-time">2 hours ago · Community joined</div>
+                </div>
+                <span class="badge badge-blue">+50 XP</span>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon" style="background:rgba(16,185,129,0.12);">🌿</div>
+                <div class="activity-info">
+                  <div class="activity-title">3 hours of Park Cleanup volunteering</div>
+                  <div class="activity-time">Yesterday · GreenCity NGO</div>
+                </div>
+                <span class="badge badge-green">+150 XP</span>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon" style="background:rgba(139,92,246,0.12);">🎵</div>
+                <div class="activity-info">
+                  <div class="activity-title">Attended Jazz Night Meetup</div>
+                  <div class="activity-time">3 days ago · Music Community</div>
+                </div>
+                <span class="badge badge-purple">+75 XP</span>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon" style="background:rgba(245,158,11,0.12);">🎓</div>
+                <div class="activity-info">
+                  <div class="activity-title">Skill Exchange: Taught Python Basics</div>
+                  <div class="activity-time">4 days ago · Skill Exchange</div>
+                </div>
+                <span class="badge badge-orange">+100 XP</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Impact Chart -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Community Engagement — Last 6 Months</div>
+            </div>
+            <div class="chart-bar-wrap" id="impact-chart">
+              <div class="chart-bar-row"><div class="chart-bar-label">January</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:40%"></div></div><div class="chart-bar-val">4</div></div>
+              <div class="chart-bar-row"><div class="chart-bar-label">February</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:55%"></div></div><div class="chart-bar-val">6</div></div>
+              <div class="chart-bar-row"><div class="chart-bar-label">March</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:70%"></div></div><div class="chart-bar-val">8</div></div>
+              <div class="chart-bar-row"><div class="chart-bar-label">April</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:60%"></div></div><div class="chart-bar-val">7</div></div>
+              <div class="chart-bar-row"><div class="chart-bar-label">May</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:85%"></div></div><div class="chart-bar-val">10</div></div>
+              <div class="chart-bar-row"><div class="chart-bar-label">June</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:95%"></div></div><div class="chart-bar-val">12</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right -->
+        <div style="display:flex;flex-direction:column;gap:1.75rem;">
+          <!-- Level & XP -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">Your Progress</div></div>
+            <div style="text-align:center;padding:1rem 0;">
+              <div style="font-size:2.5rem;margin-bottom:0.5rem;">🏗️</div>
+              <div style="font-weight:700;font-size:1.1rem;">Community Builder</div>
+              <div style="font-size:0.8rem;color:var(--text-3);margin-bottom:1rem;">Level 3 of 5</div>
+              <div class="xp-bar"><div class="xp-fill"></div></div>
+              <div style="font-size:0.78rem;color:var(--text-3);margin-top:4px;">840 / 1000 XP to Local Hero</div>
+            </div>
+            <div class="badge-grid">
+              <div class="badge-item" title="First Event">🎉<div class="badge-name">First Event</div></div>
+              <div class="badge-item" title="Team Player">🤝<div class="badge-name">Team Player</div></div>
+              <div class="badge-item" title="Volunteer">💚<div class="badge-name">Volunteer</div></div>
+              <div class="badge-item" title="Teacher">🎓<div class="badge-name">Teacher</div></div>
+              <div class="badge-item" title="Explorer">🧭<div class="badge-name">Explorer</div></div>
+              <div class="badge-item" style="opacity:0.4;" title="Locked">🔒<div class="badge-name">Locked</div></div>
+            </div>
+          </div>
+
+          <!-- Upcoming Events -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">Upcoming Events</div><a href="events.html" style="font-size:0.8rem;color:var(--blue-light);">View all</a></div>
+            <div class="upcoming-event">
+              <div class="event-date-box"><div class="event-day">14</div><div class="event-month">Jun</div></div>
+              <div><div class="event-title">Sunrise Photography Walk</div><div class="event-meta">6:00 AM · Lodi Garden · 14 attending</div></div>
+            </div>
+            <div class="upcoming-event">
+              <div class="event-date-box"><div class="event-day">16</div><div class="event-month">Jun</div></div>
+              <div><div class="event-title">AI & Coffee Networking</div><div class="event-meta">10:00 AM · Connaught Place · 32 attending</div></div>
+            </div>
+            <div class="upcoming-event">
+              <div class="event-date-box"><div class="event-day">20</div><div class="event-month">Jun</div></div>
+              <div><div class="event-title">Park Cleanup — GreenCity</div><div class="event-meta">8:00 AM · Nehru Park · 18 attending</div></div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="card">
+            <div class="card-header"><div class="card-title">Quick Actions</div></div>
+            <div style="display:flex;flex-direction:column;gap:0.5rem;margin-top:0.25rem;">
+              <a href="ai-assistant.html" class="btn-outline" style="justify-content:center;">✨ Ask the AI Assistant</a>
+              <a href="communities.html" class="btn-ghost" style="justify-content:center;border:1px solid var(--border);">🔍 Find New Communities</a>
+              <a href="volunteer.html" class="btn-ghost" style="justify-content:center;border:1px solid var(--border);">💚 Volunteer Near Me</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Navbar scroll
+    window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20)});
+    // Counter animation
+    function animateCounters(){document.querySelectorAll('[data-target]').forEach(el=>{const t=parseInt(el.dataset.target),d=1200,s=performance.now();(function step(n){const e=n-s,p=Math.min(e/d,1),v=Math.floor((1-Math.pow(1-p,3))*t);el.textContent=v.toLocaleString();if(p<1)requestAnimationFrame(step);})(performance.now());});}
+    const obs=new IntersectionObserver(e=>{if(e[0].isIntersecting){animateCounters();obs.disconnect();}},{threshold:0.3});
+    obs.observe(document.querySelector('.metric-grid'));
+    // Reveal
+    const rv=new IntersectionObserver(e=>e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');}),{threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el=>rv.observe(el));
+  </script>
+</body>
+</html>
